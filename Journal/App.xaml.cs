@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,6 +19,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -42,12 +44,26 @@ namespace Journal
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)   
         {
-            m_window = new MainWindow();
+            m_window = new Window();
+            Frame rootFrame = new Frame();
+            m_window.Content = rootFrame;
             m_window.Activate();
+            rootFrame.Navigate(typeof(MainPage));
+            Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] = Color.FromArgb(255, 255, 232, 255);
+
+
+
+        }
+
+        public void Navigate(System.Type t)
+        {
+            ((Frame)m_window.Content).Navigate(t);
         }
 
         private Window m_window;
+
+       
     }
 }

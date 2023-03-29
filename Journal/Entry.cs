@@ -7,24 +7,24 @@ using Windows.Devices.Bluetooth.Background;
 
 namespace Journal
 {
-    internal class Entry
+    public class Entry
     {
-        DateTime date;
 
-        string text;
+        public DateTime Date { get; set; }
+        public string Text { get; set; }
+
+
+        public Entry()
+        {
+
+        }
 
         public Entry(string text, DateTime date)
         {
-            this.text = text;
-            this.date = date;
+            Text = text;
+            Date = date;
         }
 
-        public String GetText() { return this.text; }
-
-        public void SetText(string text) { this.text = text;}
-
-        public DateTime GetDate() { return this.date; }
-        public void SetDate(DateTime date) { this.date = date; }
 
 
     }

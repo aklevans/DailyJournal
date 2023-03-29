@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -22,26 +23,31 @@ using Windows.Foundation.Collections;
 namespace Journal
 {
     /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
+    /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
+    public sealed partial class MainPage : Page
     {
-        public MainWindow()
+
+        public MainPage()
         {
             this.InitializeComponent();
+            HeaderText.Text = "Entry for " + DateOnly.FromDateTime(DateTime.Now);
         }
 
         private void SubmitClick(object sender, RoutedEventArgs e)
         {
             Entry entry = new Entry(journalInput.Text, DateTime.Now);
-
-            JournalManager.GetInstance().AddEntry(entry);  
-            greetingOutput.Text = "New Entry recorded at " + entry.GetDate() + ": " + JournalManager.GetInstance().GetEntry(DateTime.Now).GetText();
+            JournalManager.GetInstance().AddEntry(entry);
+            
         }
 
         private void ReadClick(object sender, RoutedEventArgs e)
         {
-
+            ((App)App.Current).Navigate(typeof(JournalPage));
+        }
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+            ((App)App.Current).Navigate(typeof(SettingsPage));
         }
     }
 }
