@@ -9,3 +9,5 @@ The journal page can be accessed by the Read Journal button on the homepage. Thi
 To access an entry from a specific day, use the date selector on the top right. To see all entries again, click Clear Filter. To go back to the homepage, click Back.
 
 The journal will be stored in a file called data.xml in the user's AppData folder.
+
+This project is still under development
