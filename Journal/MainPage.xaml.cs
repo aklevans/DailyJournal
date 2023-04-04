@@ -32,14 +32,45 @@ namespace Journal
         {
             this.InitializeComponent();
             HeaderText.Text = "Entry for " + DateOnly.FromDateTime(DateTime.Now);
-        }
-
-        private void SubmitClick(object sender, RoutedEventArgs e)
-        {
-            Entry entry = new Entry(journalInput.Text, DateTime.Now);
-            JournalManager.GetInstance().AddEntry(entry);
+            Entry entry = JournalManager.GetInstance().GetEntry(DateTime.Now);
+            if (entry != null)
+            {
+                journalInput.Text = entry.Text;
+            }
             
         }
+
+        private async void SaveClick(object sender, RoutedEventArgs e)
+        {
+            
+
+            if(journalInput.Text.Length > 0)
+            {
+                JournalManager instance = JournalManager.GetInstance();
+                Entry entry = new Entry(journalInput.Text, DateTime.Now);
+
+                //Already exists?
+                if (instance.Entries().ContainsKey(DateTime.Now.Date))
+                {
+                    ContentDialogResult result = await existingEntryDialog.ShowAsync();
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        instance.ReplaceEntryText(DateTime.Now.Date, journalInput.Text);
+                        //journalInput.Text = string.Empty;
+                    }
+
+                }
+                else
+                {
+                    instance.AddEntry(entry);
+                    //journalInput.Text = string.Empty;
+                }
+            }
+            
+        }
+
+
+
 
         private void ReadClick(object sender, RoutedEventArgs e)
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Enumeration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,15 @@ namespace Journal
 {
     internal class JournalManager
     {
-        public static string FILENAME = @"C:\Users\Guest1\source\repos\Journal\Journal\data.xml";
+        //public static string FILENAME = @"C:\Users\Guest1\source\repos\Journal\Journal\data.xml";
 
+
+        public static string FILENAME = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "data.xml");
+        
         /// <summary>
         /// 
         /// Sorted Dictionary mapping DateTime (which will always be converted to a date only) and an Entry
+        /// Cannot use DateOnly as key because Serializer will not function properly
         /// </summary>
         private SortedDictionary<DateTime, Entry> entries;
 
@@ -30,6 +35,7 @@ namespace Journal
 
         private JournalManager()
         {
+            
             try
             {
                 LoadXml();
@@ -54,6 +60,7 @@ namespace Journal
         public void AddEntry(Entry entry)
         {
             try {
+                //Debug.WriteLine(FILENAME);
                 entries.Add(entry.Date.Date, entry);
                 
                 SaveToXml();
@@ -61,9 +68,22 @@ namespace Journal
             
             catch(ArgumentException e)
             {
-                //todo
+                // duplica
             }
             
+        }
+
+        public void AppendEntryText(DateTime Key, String text)
+        {
+            entries[Key].Text += "\n\nEdit: " + TimeOnly.FromDateTime(DateTime.Now) + "\n" + text;
+            SaveToXml();
+        }
+
+        public void ReplaceEntryText(DateTime Key, String text)
+        {
+            entries[Key].Text = text;
+            entries[Key].Date = DateTime.Now;
+            SaveToXml();
         }
 
 
@@ -74,7 +94,15 @@ namespace Journal
         
         public Entry GetEntry(DateTime date)
         {
-            return entries[date.Date];
+            try { 
+                return entries[date.Date]; 
+            }
+            catch (KeyNotFoundException e)
+            {
+                return null;
+            }
+
+            
         }
 
         public SortedDictionary<DateTime, Entry> Entries()

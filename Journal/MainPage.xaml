@@ -19,18 +19,39 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="HeaderText"
                        HorizontalAlignment="Center"
+                       Padding="25"
                        FontSize="25"/>
             <TextBox x:Name="journalInput"
                      AcceptsReturn="True" 
                      TextWrapping="Wrap"
                      PlaceholderText="Write your thoughts"
+                     FontSize="20"
                      Width="700" Height="500"  HorizontalAlignment="Left"/>
 
-            <Button Content="Submit"  Click="SubmitClick"
+            <Button Content="Save"  Click="SaveClick"
                     HorizontalAlignment="Center"/>
             <Button Content="Read Journal"  Click="ReadClick"
                     HorizontalAlignment="Center" Width="200"/>
         </StackPanel>
+
+        <ContentDialog x:Name="existingEntryDialog"
+           PrimaryButtonText="Overwrite" 
+           CloseButtonText="Cancel">
+            <ContentDialog.TitleTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Entry already exists for today!"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ContentDialog.TitleTemplate>
+            <StackPanel>
+                <TextBlock TextWrapping="WrapWholeWords">
+        <Run>Do you wish to overwrite your existing journal entry?</Run><LineBreak/>
+
+                </TextBlock>
+                
+            </StackPanel>
+        </ContentDialog>
 
 
     </Grid>

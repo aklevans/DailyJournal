@@ -11,18 +11,62 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-   
-    
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-        <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
             <Button Content="Back"  Click="BackClick"
-                    HorizontalAlignment="Left" />
-            <StackPanel x:Name="JournalStack"/>
+                    HorizontalAlignment="Left"/>
 
-        </StackPanel>
 
+
+            <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                
+                <TextBlock VerticalAlignment="Center" Padding="3">
+                    Get Entry From
+                </TextBlock>
+                <DatePicker x:Name="datePicker" 
+                        SelectedDateChanged="datePicker_SelectedDateChanged"
+                            HorizontalAlignment="Right"/>
+                <Button Content="Clear Filter" Click="ClearFilterClick"
+                        HorizontalAlignment="Right"
+                        Margin="5"/>
+            </StackPanel>
+
+
+
+        </Grid>
         
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
 
-    </ScrollViewer>
+
+
+
+
+            <StackPanel>
+
+
+
+
+
+
+                <StackPanel x:Name="JournalStack"/>
+
+
+
+
+
+            </StackPanel>
+
+
+
+        </ScrollViewer>
+
+    </Grid>
+ 
 </Page>

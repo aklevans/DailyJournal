@@ -27,6 +27,14 @@ namespace Journal
     /// </summary>
     public sealed partial class JournalPage : Page
     {
+        readonly int JOURNAL_FONT_SIZE = 17;
+        readonly int DATE_FONT_SIZE = 16;
+
+        DateTime dateTime;
+
+        static JournalManager instance = JournalManager.GetInstance();
+        
+
         public JournalPage()
         {
             this.InitializeComponent();
@@ -35,40 +43,81 @@ namespace Journal
 
         private void LayoutDesign()
         {
-            JournalManager instance = JournalManager.GetInstance();
+            
+            ShowAll();
+  
+        }
+
+
+        private void ShowAll()
+        {
+            JournalStack.Children.Clear();
             SortedDictionary<DateTime, Entry> entries = instance.Entries();
 
-            foreach (KeyValuePair<DateTime, Entry> entry in JournalManager.GetInstance().Entries())
+            foreach (KeyValuePair<DateTime, Entry> valuePair in JournalManager.GetInstance().Entries())
             {
-                StackPanel EntryPanel = new StackPanel();
-                EntryPanel.HorizontalAlignment = HorizontalAlignment.Left;
-                EntryPanel.Background = new SolidColorBrush(Colors.White);
+                Entry entry = valuePair.Value;
+                AddEntryPanel(entry);
+            }
+        }
 
-                Border border = new Border();
-                border.Background = new SolidColorBrush(Colors.White);
-                border.BorderBrush = new SolidColorBrush(Colors.Black);
-                border.CornerRadius = new CornerRadius(5);
-                border.Padding = new Thickness(5);
-                border.Width = 600;
-                border.Child = EntryPanel;
-                border.Margin = new Thickness(10);
-                JournalStack.Children.Add(border);
 
-                TextBlock Date = new TextBlock();
-                Date.Text = entry.Value.Date.ToString();
-                Date.HorizontalAlignment = HorizontalAlignment.Left;
-                EntryPanel.Children.Add(Date);
+        private void datePicker_SelectedDateChanged(DatePicker sender, DatePickerSelectedValueChangedEventArgs args)
+        {
+            if (datePicker.SelectedDate != null)
+            {
+                dateTime = new DateTime(args.NewDate.Value.Year, args.NewDate.Value.Month, args.NewDate.Value.Day);
 
-                TextBlock EntryText = new TextBlock();
-                EntryText.Text = entry.Value.Text;
-                EntryPanel.Children.Add(EntryText);
+                JournalStack.Children.Clear();
+                Entry entry = instance.GetEntry(dateTime);
+                if(entry != null)
+                {
+                    AddEntryPanel(entry);
+                }
             }
 
             
         }
+
+        private void AddEntryPanel(Entry entry)
+        {
+            StackPanel EntryPanel = new StackPanel();
+            EntryPanel.HorizontalAlignment = HorizontalAlignment.Left;
+            EntryPanel.Background = new SolidColorBrush(Colors.White);
+
+            Border border = new Border();
+            border.Background = new SolidColorBrush(Colors.White);
+            border.BorderBrush = new SolidColorBrush(Colors.Black);
+            border.CornerRadius = new CornerRadius(5);
+            border.Padding = new Thickness(5);
+            border.Width = 900;
+            border.Child = EntryPanel;
+            border.Margin = new Thickness(10);
+            JournalStack.Children.Add(border);
+
+            TextBlock Date = new TextBlock();
+            Date.Text = entry.Date.ToString();
+            Date.FontSize = DATE_FONT_SIZE;
+            Date.HorizontalAlignment = HorizontalAlignment.Left;
+            EntryPanel.Children.Add(Date);
+
+            TextBlock EntryText = new TextBlock();
+            EntryText.Text = entry.Text;
+            EntryText.FontSize = JOURNAL_FONT_SIZE;
+            EntryText.TextWrapping = TextWrapping.Wrap;
+            EntryText.Padding = new Thickness(5);
+            EntryPanel.Children.Add(EntryText);
+        }
+
+
         private void BackClick(object sender, RoutedEventArgs e)
         {
             ((App)App.Current).Navigate(typeof(MainPage));
+        }
+
+        private void ClearFilterClick(object sender, RoutedEventArgs e) {
+            datePicker.SelectedDate = null;
+            ShowAll();
         }
     }
 }
