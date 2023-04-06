@@ -112,7 +112,7 @@ namespace Journal
 
         private void BackClick(object sender, RoutedEventArgs e)
         {
-            ((App)App.Current).Navigate(typeof(MainPage));
+            ((App)App.Current).NavigateDrill(typeof(MainPage));
         }
 
         private void ClearFilterClick(object sender, RoutedEventArgs e) {

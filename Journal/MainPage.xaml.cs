@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.XPath;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -74,11 +76,17 @@ namespace Journal
 
         private void ReadClick(object sender, RoutedEventArgs e)
         {
-            ((App)App.Current).Navigate(typeof(JournalPage));
+            ((App)App.Current).NavigateDrill(typeof(JournalPage));
         }
-        private void SettingsClick(object sender, RoutedEventArgs e)
+        private async void SettingsClick(object sender, RoutedEventArgs e)
         {
-            ((App)App.Current).Navigate(typeof(SettingsPage));
+            colorPicker.Color = (Windows.UI.Color)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
+            ContentDialogResult result = await settingsDialog.ShowAsync();
+            if(result == ContentDialogResult.Primary)
+            {
+                Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] = colorPicker.Color;
+                ((App)App.Current).NavigateDrill(typeof(MainPage));
+            }
         }
     }
 }

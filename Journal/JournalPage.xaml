@@ -41,30 +41,11 @@
 
 
         </Grid>
-        
+
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1">
-
-
-
-
-
             <StackPanel>
-
-
-
-
-
-
                 <StackPanel x:Name="JournalStack"/>
-
-
-
-
-
             </StackPanel>
-
-
-
         </ScrollViewer>
 
     </Grid>

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
 using System;
@@ -57,10 +58,17 @@ namespace Journal
 
         }
 
-        public void Navigate(System.Type t)
+        public void NavigateRefresh(System.Type t)
         {
             ((Frame)m_window.Content).Navigate(t);
         }
+
+        public void NavigateDrill(System.Type t)
+        {
+            ((Frame)m_window.Content).Navigate(t, null, new DrillInNavigationTransitionInfo());
+        }
+
+        
 
         private Window m_window;
 

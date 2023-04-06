@@ -53,6 +53,30 @@
             </StackPanel>
         </ContentDialog>
 
+        <ContentDialog x:Name="settingsDialog"
+           PrimaryButtonText="Save" 
+           CloseButtonText="Cancel">
+            <ContentDialog.TitleTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Settings"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ContentDialog.TitleTemplate>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel >
+                    <TextBlock>
+                    Background Color
+                    </TextBlock>
+                    <ColorPicker x:Name="colorPicker"
+                            IsColorChannelTextInputVisible="False" />
+
+                </StackPanel>
+                
+
+            </StackPanel>
+        </ContentDialog>
+
 
     </Grid>
 </Page>
